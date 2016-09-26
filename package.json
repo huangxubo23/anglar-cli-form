@@ -1,7 +1,11 @@
 {
   "name": "anglar-cli-login",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https:github.com/huangxubo23/angular-cli-login"
+  },
   "angular-cli": {},
   "scripts": {
     "start": "ng serve",
@@ -23,7 +27,8 @@
     "core-js": "^2.4.1",
     "rxjs": "5.0.0-beta.12",
     "ts-helpers": "^1.1.1",
-    "zone.js": "^0.6.23"
+    "zone.js": "^0.6.23",
+    "bootstrap": "3.3.7"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
