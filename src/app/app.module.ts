@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
+import { FormMessagesComponent } from './common/form-messages.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { SignupComponent } from './signup/signup.component';
   ],
   declarations: [
     AppComponent,
+    FormMessagesComponent,
     HeaderComponent,
     FooterComponent,
     LoginComponent,
