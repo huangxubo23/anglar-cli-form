@@ -13,6 +13,12 @@ import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    routing
+  ],
   declarations: [
     AppComponent,
     HeaderComponent,
@@ -21,12 +27,6 @@ import { SignupComponent } from './signup/signup.component';
     ResetPasswordComponent,
     HomeComponent,
     SignupComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    routing
   ],
   providers: [
     appRoutingProviders
