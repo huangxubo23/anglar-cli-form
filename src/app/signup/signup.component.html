@@ -1,3 +1,17 @@
-<p>
-  signup works!
-</p>
+<form [formGroup]="newUserForm">
+    <!--<div *ngFor="let property of newUser" [ngSwitch]="property">
+      <label>{{property}}:</label>
+      <input *ngSwitchCase="'userName'" type="text" class="form-control" [formControlName]="property">
+      <input *ngSwitchCase="'email'" type="text" class="form-control" [formControlName]="property">
+      <input *ngSwitchCase="'telephone'" type="text" class="form-control" [formControlName]="property">
+      <input *ngSwitchCase="'password'" type="text" class="form-control" [formControlName]="property">
+      <input *ngSwitchCase="'sex'" type="text" class="form-control" [formControlName]="property">
+      <input *ngSwitchCase="'age'" type="number" class="form-control" [formControlName]="property">
+      <textarea  *ngSwitchCase="'habbies'" class="form-control" [formControlName]="property"></textarea>
+      <tags-control-messages [control]="newUserForm.controls[property]"></tags-control-messages>
+    </div>-->
+    <input type="text" class="form-control" [formControlName]="userName">
+    <input type="text" class="form-control" [formControlName]="email">
+    <input type="text" class="form-control" [formControlName]="password">
+    <input type="text" class="form-control" [formControlName]="age">
+</form>
