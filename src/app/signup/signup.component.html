@@ -1,17 +1,28 @@
-<form [formGroup]="newUserForm">
-    <!--<div *ngFor="let property of newUser" [ngSwitch]="property">
-      <label>{{property}}:</label>
-      <input *ngSwitchCase="'userName'" type="text" class="form-control" [formControlName]="property">
-      <input *ngSwitchCase="'email'" type="text" class="form-control" [formControlName]="property">
-      <input *ngSwitchCase="'telephone'" type="text" class="form-control" [formControlName]="property">
-      <input *ngSwitchCase="'password'" type="text" class="form-control" [formControlName]="property">
-      <input *ngSwitchCase="'sex'" type="text" class="form-control" [formControlName]="property">
-      <input *ngSwitchCase="'age'" type="number" class="form-control" [formControlName]="property">
-      <textarea  *ngSwitchCase="'habbies'" class="form-control" [formControlName]="property"></textarea>
-      <tags-control-messages [control]="newUserForm.controls[property]"></tags-control-messages>
-    </div>-->
-    <input type="text" class="form-control" [formControlName]="userName">
-    <input type="text" class="form-control" [formControlName]="email">
-    <input type="text" class="form-control" [formControlName]="password">
-    <input type="text" class="form-control" [formControlName]="age">
-</form>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4>Signup</h4>
+    
+    <form [formGroup]="newUserForm">
+      <div>
+        <label for="userName">User Name:</label>
+        <input type="text" id="userName" class="form-control" [formControl]="newUserForm.controls['userName']">
+        <app-form-messages [control]="newUserForm.controls['userName']"></app-form-messages>
+      </div>
+      <div>
+        <label for="userName">Email:</label>
+        <input type="text" class="form-control" [formControl]="newUserForm.controls['email']">
+        <app-form-messages [control]="newUserForm.controls['email']"></app-form-messages>
+      </div>
+      <div>
+        <label for="userName">Password:</label>
+        <input type="text" class="form-control" [formControl]="newUserForm.controls['password']">
+        <app-form-messages [control]="newUserForm.controls['password']"></app-form-messages>
+      </div>
+      <div>
+        <label for="userName">Age:</label>
+        <input type="text" class="form-control" [formControl]="newUserForm.controls['age']">
+        <app-form-messages [control]="newUserForm.controls['age']"></app-form-messages>
+      </div>
+    </form>
+  </div>
+</div>

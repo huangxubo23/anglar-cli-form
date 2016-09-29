@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -16,7 +16,8 @@ import { FormMessagesComponent } from './common/form-messages.component';
 @NgModule({
   imports: [
     BrowserModule,
-    FormsModule,
+    FormsModule,            //FormsModule gives us template driven directives such as:ngModel and NgForm
+    ReactiveFormsModule,    //ReactiveFormsModule gives us directives like formControl and ngFormGroup
     HttpModule,
     routing
   ],

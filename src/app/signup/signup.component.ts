@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { FormValidationService } from '../common/form-validation.service';
 import { NewUser } from './new-user';
@@ -7,7 +7,6 @@ import { NewUser } from './new-user';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  viewProviders: [ReactiveFormsModule],
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
@@ -40,6 +39,7 @@ export class SignupComponent implements OnInit {
         case 'email':
           formCtrlValidators.concat([Validators.required, FormValidationService.emailValidator]);
           formGroupObj[property] = [this.newUser[property], formCtrlValidators];
+          break;
         case 'age':
           formCtrlValidators.push(FormValidationService.integerValidator(0, 150));
           formGroupObj[property] = [this.newUser[property], formCtrlValidators];
