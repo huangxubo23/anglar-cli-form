@@ -12,7 +12,7 @@ import { NewUser } from './new-user';
 export class SignupComponent implements OnInit {
   newUser: NewUser;
   newUserForm: FormGroup;
-  constructor(private formBuilder:FormBuilder) {
+  constructor(private formBuilder: FormBuilder) {
     this.newUser = new NewUser();
     console.log(this.newUser);
   }
@@ -21,6 +21,10 @@ export class SignupComponent implements OnInit {
     console.log('signup init');
     let formGroupObj = this.generateForm(this.newUser);
     this.newUserForm = this.formBuilder.group(formGroupObj);
+  }
+
+  onSubmit(data) {
+    console.log(data);
   }
 
   generateForm(data: NewUser) {
