@@ -83,10 +83,22 @@ app.use(express.static(path.join(__dirname, './src')));
 
 /*
  |--------------------------------------------------------------------------
+ | Get user information
+ |--------------------------------------------------------------------------
+ */
+app.get('/api/user', function (req, res) {
+    //57f9120fa3fd5308e0d3d0d0
+    User.findById(req.query.userId, function (err, user) {
+        res.send(user);
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
  | Create Email and Password Account
  |--------------------------------------------------------------------------
  */
-app.post('/sigup', function (req, res, next) {
+app.post('/api/sigup', function (req, res, next) {
     req.assert('email', 'Email is required').notEmpty();
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 4 characters long').len(4);
@@ -102,7 +114,7 @@ app.post('/sigup', function (req, res, next) {
         console.log(req.body.confirmPassword);
         console.log(errors);
         //return res.redirect('/signup');
-        return res.status(404).send({message: errors});
+        return res.status(404).send({ message: errors });
     }
 
     User.findOne({ email: req.body.email }, function (err, existingUser) {
@@ -132,5 +144,5 @@ app.post('/sigup', function (req, res, next) {
  |--------------------------------------------------------------------------
  */
 app.listen(app.get('port'), app.get('host'), function () {
-    console.log('Express sercer listening on: ' + app.get('host') + ':' + app.get('port'))
+    console.log('Express sercer listening on: ' + app.get('host') + ':' + app.get('port'));
 });
