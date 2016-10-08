@@ -18,6 +18,11 @@ var mongoose = require('mongoose');
 
 var config = require('./server/config');
 
+/**
+ * Create Express server.
+ */
+var app = express();
+
 var userSchema = new mongoose.Schema({
     email: { type: String, unique: true, lowercase: true },
     password: { type: String, select: false },
@@ -54,13 +59,9 @@ mongoose.connection.on('connected', function () {
     console.log('%s MongoDB connection established!', chalk.green('✓'));
 });
 mongoose.connection.on('error', function (err) {
-    console.log('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
+    console.log('%s Could not connect to MongoDB. Did you forget to run `mongod`?', chalk.red('✗'));
 });
 
-/**
- * Create Express server.
- */
-var app = express();
 
 app.set('port', process.env.NODE_PORT || 3000);
 app.set('host', process.env.NODE_IP || 'localhost');
@@ -110,7 +111,7 @@ app.post('/sigup', function (req, res, next) {
             return res.status(409).send({ message: 'Email is already taken' });
         }
         var user = new User({
-            emial: req.body.email,
+            email: req.body.email,
             password: req.body.password,
             userName: req.body.userName
         });
