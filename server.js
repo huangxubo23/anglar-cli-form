@@ -10,9 +10,16 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var express = require('express');
 var logger = require('morgan');
+var mongoose = require('mongoose');
 
 var config = require('./server/config');
 
+var userSchema = new mongoose.Schema({
+    email: {type: string, unique: true, lowercase: true},
+    password: {type: string, select: false},
+    userName: string,
+    age: number
+});
 
 var app = express();
 
