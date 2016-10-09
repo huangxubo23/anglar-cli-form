@@ -89,7 +89,7 @@ app.use(express.static(path.join(__dirname, './src')));
 app.get('/api/user', (req, res) => {
     //57f9120fa3fd5308e0d3d0d0
     User.findById(req.query.userId, (err, user) => {
-        res.send(user);
+        res.send({data: user});
     });
 });
 
@@ -109,10 +109,6 @@ app.post('/api/sigup', (req, res, next) => {
 
     if (errors) {
         //req.flash('errors', errors);
-        console.log(req.body.email);
-        console.log(req.body.password);
-        console.log(req.body.confirmPassword);
-        console.log(errors);
         //return res.redirect('/signup');
         return res.status(404).send({ message: errors });
     }
@@ -131,7 +127,7 @@ app.post('/api/sigup', (req, res, next) => {
                 return res.status(500).send({ message: err.message });
             }
             //res.send({ token: createJWT(result) });
-            return res.send({ message: result });
+            return res.send({ data: result });
         });
     });
 });
