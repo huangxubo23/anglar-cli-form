@@ -10,6 +10,7 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { HomeComponent } from './home/home.component';
+import { HomeService } from './home/home.service';
 import { SignupComponent } from './signup/signup.component';
 import { FormMessagesComponent } from './common/form-messages.component';
 
@@ -33,7 +34,8 @@ import { FormMessagesComponent } from './common/form-messages.component';
     SignupComponent
   ],
   providers: [
-    appRoutingProviders
+    appRoutingProviders,
+    HomeService
   ],
   bootstrap: [AppComponent]
 })
