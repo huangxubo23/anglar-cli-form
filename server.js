@@ -98,7 +98,7 @@ app.get('/api/user', (req, res) => {
  | Create Email and Password Account
  |--------------------------------------------------------------------------
  */
-app.post('/api/sigup', (req, res, next) => {
+app.post('/api/signup', (req, res, next) => {
     req.assert('email', 'Email is required').notEmpty();
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 4 characters long').len(4);
