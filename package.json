@@ -9,7 +9,7 @@
   "angular-cli": {},
   "scripts": {
     "start": "ng serve",
-    "server": "node server.js",
+    "server": "nodemon server.js",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
