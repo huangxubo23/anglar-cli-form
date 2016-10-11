@@ -11,9 +11,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const expressValidator = require('express-validator');
+const jwt = require('jwt-simple');
 const flash = require('express-flash');
 const logger = require('morgan');
 const chalk = require('chalk');
+const moment = require('moment');
 const mongoose = require('mongoose');
 
 const config = require('./server/config');
@@ -83,6 +85,44 @@ app.use(express.static(path.join(__dirname, './src')));
 
 /*
  |--------------------------------------------------------------------------
+ | Generate JSON Web Token
+ |--------------------------------------------------------------------------
+ */
+function createJWT(user) {
+    var payload = {
+        sub: user._id,
+        iat: moment().unix(),
+        exp: moment().add(14, 'days').unix()
+    };
+
+    return jwt.encode(payload, config.TOKEN_SECRET);
+}
+
+/*
+ |--------------------------------------------------------------------------
+ | Log in with Email
+ |--------------------------------------------------------------------------
+ */
+app.post('/auth/login', function (req, res) {
+    if (!req.body.email || !req.body.password) {
+        return res.status(400).send('You must send the username and the password');
+    }
+
+    User.findOne({ email: req.body.email }, '+password', function (err, user) {
+        if (!user) {
+            return res.status(401).send({ message: 'Invalid email' });
+        }
+        user.comparePassword(req.body.password, function (err, isMath) {
+            if (!isMath) {
+                return res.status(401).send({ message: 'Invalid password' });
+            }
+            return res.send({ token: createJWT(user) });
+        })
+    })
+})
+
+/*
+ |--------------------------------------------------------------------------
  | Get user information
  |--------------------------------------------------------------------------
  */
@@ -119,7 +159,7 @@ app.post('/api/signup', (req, res, next) => {
 
     User.findOne({ email: req.body.email }, (err, existingUser) => {
         if (existingUser) {
-            return res.send({ 
+            return res.send({
                 status: 'invalidForm',
                 data: {
                     email: {
@@ -142,7 +182,8 @@ app.post('/api/signup', (req, res, next) => {
             //res.send({ token: createJWT(result) });
             return res.send({
                 status: 'successed',
-                data: result });
+                token: createJWT(result)
+            });
         });
     });
 });

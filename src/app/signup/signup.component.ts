@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { FormValidationService } from '../common/form-validation.service';
@@ -6,9 +7,10 @@ import { NewUser } from './new-user';
 import { Observable } from 'rxjs/Observable';
 import { SignupService } from './signup.service';
 
-interface ISuccessData {
-  status: String;
-  data: Object
+interface IResponseData {
+  status: string;
+  data?: any;
+  token?: string;
 }
 
 @Component({
@@ -21,6 +23,7 @@ export class SignupComponent implements OnInit {
   newUser: NewUser;
   newUserForm: FormGroup;
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
     private signupService: SignupService
   ) {
@@ -43,30 +46,30 @@ export class SignupComponent implements OnInit {
     }
 
     console.log(this.newUserForm.value);
-    this.signupService.createUser(this.newUserForm.value).subscribe((success: ISuccessData) => {
-      switch (success.status) {
-        case 'successed':
-          console.log(success.data)
-          break;
+    this.signupService.createUser(this.newUserForm.value).subscribe((response: IResponseData) => {
+      switch (response.status) {
         case 'invalidForm':
-          if (Object.prototype.toString.call(success.data) === '[object Object]') {
-            for (const name in success.data) {
-              if (!success.data.hasOwnProperty(name))
+          if (Object.prototype.toString.call(response.data) === '[object Object]') {
+            for (const name in response.data) {
+              if (!response.data.hasOwnProperty(name))
                 return;
 
-              const data = success.data[name];
+              const data = response.data[name];
               this.newUserForm.controls[data.param] && this.newUserForm.controls[data.param].setErrors({
                 invalidForm: data.msg
               });
             }
           }
           break;
+        case 'successed':
+          localStorage.setItem('id_token', response.token);
+          this.router.navigate(['login']);
+          break;
         default:
           break;
       }
     }, (error: any) => {
       console.log(error);
-
     });
   }
 
