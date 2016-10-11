@@ -3,6 +3,7 @@ export class NewUser {
     email: string = null
     telephone: string = null;
     password: string = null;
+    confirmPassword: string = null;
     sex: string = 'male';
     age: number = null;
     address: string = null;

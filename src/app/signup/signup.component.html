@@ -1,31 +1,36 @@
 <div class="panel panel-default">
-  <div class="panel-body">
-    <h4>Signup</h4>
+	<div class="panel-body">
+		<h4>Signup</h4>
 
-    <form [formGroup]="newUserForm" (ngSubmit)="onSubmit(newUserForm.value)">
-      <div>
-        <label for="userName">User Name:</label>
-        <input type="text" id="userName" class="form-control" [formControl]="newUserForm.controls['userName']">
-        <app-form-messages [control]="newUserForm.controls['userName']"></app-form-messages>
-      </div>
-      <div>
-        <label for="userName">Email:</label>
-        <input type="text" class="form-control" [formControl]="newUserForm.controls['email']">
-        <app-form-messages [control]="newUserForm.controls['email']"></app-form-messages>
-      </div>
-      <div>
-        <label for="userName">Password:</label>
-        <input type="text" class="form-control" [formControl]="newUserForm.controls['password']">
-        <app-form-messages [control]="newUserForm.controls['password']"></app-form-messages>
-      </div>
-      <div>
-        <label for="userName">Age:</label>
-        <input type="text" class="form-control" [formControl]="newUserForm.controls['age']">
-        <app-form-messages [control]="newUserForm.controls['age']"></app-form-messages>
-      </div>
-      <div class="text-right">
-        <button type="submit" class="btn btn-sm btn-success">Save</button>
-      </div>
-    </form>
-  </div>
+		<form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
+			<div>
+				<label for="userName">User Name:</label>
+				<input type="text" id="userName" class="form-control" [formControl]="newUserForm.controls['userName']">
+				<app-form-messages [control]="newUserForm.controls['userName']"></app-form-messages>
+			</div>
+			<div>
+				<label for="email">Email:</label>
+				<input type="text" id="email" class="form-control" [formControl]="newUserForm.controls['email']" />
+				<app-form-messages [control]="newUserForm.controls['email']"></app-form-messages>
+			</div>
+			<div>
+				<label for="password">Password:</label>
+				<input type="text" id="password" class="form-control" [formControl]="newUserForm.controls['password']">
+				<app-form-messages [control]="newUserForm.controls['password']"></app-form-messages>
+			</div>
+			<div>
+				<label for="confirmPassword">Confirm Password:</label>
+				<input type="text" id="confirmPassword" class="form-control" [formControl]="newUserForm.controls['confirmPassword']">
+				<app-form-messages [control]="newUserForm.controls['confirmPassword']"></app-form-messages>
+			</div>
+			<div>
+				<label for="age">Age:</label>
+				<input type="text" id="age" class="form-control" [formControl]="newUserForm.controls['age']">
+				<app-form-messages [control]="newUserForm.controls['age']"></app-form-messages>
+			</div>
+			<div class="text-right">
+				<button type="submit" class="btn btn-sm btn-success">Save</button>
+			</div>
+		</form>
+	</div>
 </div>

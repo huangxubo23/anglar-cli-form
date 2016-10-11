@@ -15,12 +15,13 @@ export class FormValidationService {
       'required': 'This field is required',
       'invalidCreditCard': 'Is invalid credit card number',
       'invalidEmailAddress': 'Invalid email address',
-      'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number.',
+      'invalidPassword': 'Invalid password. Password must be at least 6 characters long, and contain a number',
       'minlength': `Minimum length ${validatorValue.requiredLength}, current length is ${validatorValue.actualLength}`,
       'maxlength': `Maximum length ${validatorValue.requiredLength}, current length is ${validatorValue.actualLength}`,
       'max': `Max limit is ${validatorValue.requiredMax}`,
       'min': `Min limit is ${validatorValue.requiredMin}`,
-      'invalid': 'Current value is invalid'
+      'invalid': 'Current value is invalid',
+      'invalidForm': validatorValue
     };
     return config[validatorName];
   }
@@ -38,7 +39,7 @@ export class FormValidationService {
 
   static emailValidator(control: FormControl): ValidationResult {
     // RFC 2822 compliant regex
-    if (control.value.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
+    if (typeof(control.value) === 'string' && control.value.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
       return null;
     } else {
       return {

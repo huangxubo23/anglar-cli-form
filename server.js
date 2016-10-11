@@ -89,7 +89,7 @@ app.use(express.static(path.join(__dirname, './src')));
 app.get('/api/user', (req, res) => {
     //57f9120fa3fd5308e0d3d0d0
     User.findById(req.query.userId, (err, user) => {
-        res.send({data: user});
+        res.send({ data: user });
     });
 });
 
@@ -99,6 +99,7 @@ app.get('/api/user', (req, res) => {
  |--------------------------------------------------------------------------
  */
 app.post('/api/signup', (req, res, next) => {
+    console.log(req);
     req.assert('email', 'Email is required').notEmpty();
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 4 characters long').len(4);
@@ -110,12 +111,24 @@ app.post('/api/signup', (req, res, next) => {
     if (errors) {
         //req.flash('errors', errors);
         //return res.redirect('/signup');
-        return res.status(404).send({ message: errors });
+        return res.send({
+            status: 'invalidForm',
+            data: errors
+        });
     }
 
     User.findOne({ email: req.body.email }, (err, existingUser) => {
         if (existingUser) {
-            return res.status(409).send({ message: 'Email is already taken' });
+            return res.send({ 
+                status: 'invalidForm',
+                data: {
+                    email: {
+                        param: 'email',
+                        msg: req.body.email + ' has been taken, please user another Email',
+                        value: req.body.email
+                    }
+                }
+            });
         }
         const user = new User({
             email: req.body.email,
@@ -127,7 +140,9 @@ app.post('/api/signup', (req, res, next) => {
                 return res.status(500).send({ message: err.message });
             }
             //res.send({ token: createJWT(result) });
-            return res.send({ data: result });
+            return res.send({
+                status: 'successed',
+                data: result });
         });
     });
 });
