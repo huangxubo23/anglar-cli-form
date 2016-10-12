@@ -105,7 +105,7 @@ function createJWT(user) {
  */
 app.post('/auth/login', function (req, res) {
     if (!req.body.email || !req.body.password) {
-        return res.status(400).send('You must send the username and the password');
+        return res.status(400).send('You must send the email and the password');
     }
 
     User.findOne({ email: req.body.email }, '+password', function (err, user) {

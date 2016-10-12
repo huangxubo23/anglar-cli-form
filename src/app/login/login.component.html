@@ -4,10 +4,10 @@
 
     <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" class="login-form">
       <div class="form-group">
-        <label for="userName">User Name:</label>
-        <input type="email" class="form-control" id="userName" placeholder="Email" autofocus required [(ngModel)]="user.userName"
-          name="userName" #userName="ngModel">
-        <p [hidden]="userName.valid || userName.pristine" class="text-danger">
+        <label for="email">User Name:</label>
+        <input type="email" class="form-control" id="email" placeholder="Email" autofocus required [(ngModel)]="user.email"
+          name="email" #email="ngModel">
+        <p [hidden]="email.valid || email.pristine" class="text-danger">
           Name is required
         </p>
       </div>

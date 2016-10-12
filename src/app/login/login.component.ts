@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, trigger, state, animate, transition, style } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { LoginUser } from './login-user';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -13,12 +15,13 @@ import { LoginUser } from './login-user';
     ])
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
   animationState: boolean = false;
   user = new LoginUser(null, null);
-  constructor() {
+  constructor(private loginService: LoginService) {
     console.log(this.user);
   }
 
@@ -35,9 +38,15 @@ export class LoginComponent implements OnInit {
     console.log('OnDestroy');
   }
 
-  onSubmit(loginForm) {
-    console.log(loginForm);
-    console.log(this.user);
+  onSubmit(loginForm: FormGroup) {
+    if (loginForm.invalid)
+      return false;
+
+    this.loginService.login(this.user).subscribe((response: any) => {
+      console.log(response);
+    }, (error: any) => {
+      console.log(error);
+    })
   }
 
   onChangeAnimation() {
