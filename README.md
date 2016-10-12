@@ -1,9 +1,29 @@
-# AnglarCliLogin
+# AnglarCliForm
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.15.
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.15. Using Angular2 Express and MongoDB to create user auth application. 
+
+## Install
+install `angular-cli`:
+```bash
+npm install -g angular-cli
+```
+install `nodemon`:
+```bash
+npm install -g nodemon
+```
 
 ## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Firstly, start MongoDB:
+```bash
+mongod
+or
+mongod -dbpath C:\data\db
+```
+Then, start node server:
+```bash
+npm run server
+```
+At last, run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
