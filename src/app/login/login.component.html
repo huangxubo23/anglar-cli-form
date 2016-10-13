@@ -1,7 +1,8 @@
 <div class="panel panel-default login-panel" [@isVisibleChanged]="animationState">
   <div class="panel-body">
     <h1>Login</h1>
-
+    
+    <!--Template driven form-->
     <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" class="login-form">
       <div class="form-group">
         <label for="email">Email:</label>
@@ -15,9 +16,7 @@
       <div class="form-group">
         <label for="password">Password:</label>
         <input type="text" class="form-control" id="password" placeholder="Password" required [(ngModel)]="user.password" name="password" #password="ngModel">
-        <p [hidden]="password.valid || password.pristine" class="text-danger">
-          Password is required
-        </p>
+        <app-form-messages *ngIf="password.invalid && password.dirty" [control]="password"></app-form-messages>
       </div>
       <p *ngIf="showErr" class="text-danger">{{errMsg}}</p>
       <button type="submit" class="btn btn-default" [disabled]="!loginForm.form.valid">Login</button>
