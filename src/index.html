@@ -1,15 +1,38 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>AnglarCliLogin</title>
-  <base href="/">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+<head>
+	<meta charset="utf-8">
+	<title>AnglarCliLogin</title>
+	<base href="/">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
-  <app-root>Loading...</app-root>
+	<app-root>Loading...</app-root>
+
+	<script type="text/javascript">
+		(function (window) {
+			var getBodyFontSize = function() {
+        var html = document.documentElement;
+				var windowWidth = html.clientWidth;
+				console.log('windowWidth: ' + windowWidth);
+				/* 
+				 * font-size的取值通过js计算，取当前viewport的deviceWidth与设计稿的宽的比例值
+				 * 这个10就是根据设计稿的横向宽度1000px来确定的, 因为得出的font-size太小，不方便计算，且有的浏览器可能不兼容太小字号，所以将font-size放大100倍
+				 * 等价于html.style.fontSize = windowWidth / 640 * 100 + 'px'
+				 */ 
+				html.style.fontSize = windowWidth / 10 + 'px';
+      };
+      
+      window.addEventListener('resize', getBodyFontSize, false);
+      
+      document.addEventListener('DOMContentLoaded', getBodyFontSize, false);
+		})(window);
+	</script>
 </body>
+
 </html>

@@ -1,3 +1,12 @@
-input.ng-invalid.ng-dirty{
+input.ng-invalid.ng-dirty {
     border: 1px solid red;
+}
+
+.text-danger {
+    color: #a94442;
+    margin: 0;
+}
+
+.margin-top-10 {
+    margin-top: .1rem;
 }

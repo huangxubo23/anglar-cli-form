@@ -1,4 +1,8 @@
 .login-panel {
-    width: 520px;
+    width: 5.2rem;
     margin: 0 auto;
+}
+
+input.ng-invalid.ng-dirty{
+    border: 1px solid red;
 }
