@@ -23,9 +23,10 @@ export class LoginService {
     return this.http.post(`${this.baseUrl}/auth/login`, user, options)
       .map((response: Response) => response.json())
       .catch((error: Response) => {
-        const data = error.json();
-        const errMsg = (data.message) ? data.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        return Observable.throw(errMsg);
+        // console.log(error);
+        // const data = error.json();
+        // const errMsg = (data.message) ? data.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        return Observable.throw(error.json());
       });
   }
 }

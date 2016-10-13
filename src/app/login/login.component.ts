@@ -21,6 +21,8 @@ import { LoginService } from './login.service';
 export class LoginComponent implements OnInit {
   animationState: boolean = false;
   user = new LoginUser(null, null);
+  errMsg: string = null;
+  showErr: boolean = false;
   constructor(private loginService: LoginService) {
     console.log(this.user);
   }
@@ -40,12 +42,20 @@ export class LoginComponent implements OnInit {
 
   onSubmit(loginForm: FormGroup) {
     if (loginForm.invalid)
-      return false;
+      return this.errMsg = 'Email and Password are required';
 
     this.loginService.login(this.user).subscribe((response: any) => {
       console.log(response);
     }, (error: any) => {
-      console.log(error);
+      if (error.hasOwnProperty('status') && error.status === 'invalidForm') {
+        error.messages.map((message: IMessage) => {
+          loginForm.controls[message.param].setErrors({
+            invalidForm: message.msg
+          });
+        });
+      } else {
+        this.errMsg = (error.messages) ? error.messages : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+      }
     })
   }
 
@@ -53,4 +63,11 @@ export class LoginComponent implements OnInit {
     this.animationState = this.animationState ? false : true;
     console.log(this.animationState);
   }
+}
+
+interface IMessage {
+  param: string;
+  msg: string;
+  value: any;
+  error?: boolean;
 }

@@ -105,16 +105,33 @@ function createJWT(user) {
  */
 app.post('/auth/login', function (req, res) {
     if (!req.body.email || !req.body.password) {
-        return res.status(400).send('You must send the email and the password');
+        return res.status(400).send({
+            status: 'invalidParam',
+            messages: 'You must send both email and Password'
+        });
     }
 
     User.findOne({ email: req.body.email }, '+password', function (err, user) {
         if (!user) {
-            return res.status(401).send({ message: 'Invalid email' });
+            return res.status(401).send({
+                status: 'invalidForm',
+                messages: [{
+                    param: 'email',
+                    msg: req.body.email +  ' is not a valid email',
+                    value: req.body.email
+                }] 
+            });
         }
         user.comparePassword(req.body.password, function (err, isMath) {
             if (!isMath) {
-                return res.status(401).send({ message: 'Invalid password' });
+                return res.status(401).send({ 
+                    status: 'invalidForm',
+                    messages: [{
+                        param: 'password',
+                        msg: req.body.password + ' is not a valid password',
+                        value: req.body.password
+                    }] 
+                });
             }
             return res.send({ token: createJWT(user) });
         })

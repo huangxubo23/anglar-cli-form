@@ -4,25 +4,23 @@
 
     <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" class="login-form">
       <div class="form-group">
-        <label for="email">User Name:</label>
-        <input type="email" class="form-control" id="email" placeholder="Email" autofocus required [(ngModel)]="user.email"
-          name="email" #email="ngModel">
-        <p [hidden]="email.valid || email.pristine" class="text-danger">
-          Name is required
-        </p>
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="Email" autofocus required [(ngModel)]="user.email" name="email" #email="ngModel">
+        <app-form-messages *ngIf="email.invalid && email.dirty" [control]="email"></app-form-messages>
+        <!--<p [hidden]="email.valid || email.pristine" class="text-danger">
+          Email is required
+        </p>-->
       </div>
 
       <div class="form-group">
         <label for="password">Password:</label>
-        <input type="text" class="form-control" id="password" placeholder="Password" required [(ngModel)]="user.password" name="password"
-          #password="ngModel">
+        <input type="text" class="form-control" id="password" placeholder="Password" required [(ngModel)]="user.password" name="password" #password="ngModel">
         <p [hidden]="password.valid || password.pristine" class="text-danger">
           Password is required
         </p>
       </div>
-
+      <p *ngIf="showErr" class="text-danger">{{errMsg}}</p>
       <button type="submit" class="btn btn-default" [disabled]="!loginForm.form.valid">Login</button>
     </form>
-    <button type="button" class="btn btn-warning" (click)="onChangeAnimation()">click</button>
   </div>
 </div>

@@ -22,6 +22,8 @@ export class FormMessagesComponent implements OnInit {
       if (this.control.errors.hasOwnProperty(propertyName) && this.control.dirty) {
         return FormValidationService.getValidatorErrorMessage(propertyName, this.control.errors[propertyName]);
       }
+
+      return null;
     }
   }
 }
