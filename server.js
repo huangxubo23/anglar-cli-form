@@ -101,18 +101,18 @@ function ensureAuthenticated(req, res, next) {
     try {
         payload = jwt.decode(token, config.TOKEN_SECRET);
     }
-    catch(err) {
+    catch (err) {
         return res.status(401).send({
             messages: err.message
         });
     }
 
-    if(payload.exp <= moment().unix()) {
+    if (payload.exp <= moment().unix()) {
         return res.status(401).send({
             messages: 'Token has expired'
         });
     }
-    
+
     req.user = payload.sub;
 
     next();
@@ -152,20 +152,20 @@ app.post('/auth/login', function (req, res) {
                 status: 'invalidForm',
                 messages: [{
                     param: 'email',
-                    msg: req.body.email +  ' is not a valid email',
+                    msg: req.body.email + ' is not a valid email',
                     value: req.body.email
-                }] 
+                }]
             });
         }
         user.comparePassword(req.body.password, function (err, isMath) {
             if (!isMath) {
-                return res.status(401).send({ 
+                return res.status(401).send({
                     status: 'invalidForm',
                     messages: [{
                         param: 'password',
                         msg: req.body.password + ' is not a valid password',
                         value: req.body.password
-                    }] 
+                    }]
                 });
             }
             return res.send({ token: createJWT(user) });
@@ -182,6 +182,32 @@ app.get('/api/user', (req, res) => {
     //57f9120fa3fd5308e0d3d0d0
     User.findById(req.query.userId, (err, user) => {
         res.send({ data: user });
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
+ | Update user information
+ | PUT /api/me
+ |--------------------------------------------------------------------------
+ */
+app.put('/api/user', ensureAuthenticated, function (req, res) {
+    User.findById(req.user, (err, user) => {
+        if (!user) {
+            return res.status(400).send({
+                messages: 'User not found'
+            });
+        }
+
+        user.userName = req.body.userName || user.userName;
+        user.email = req.body.email || user.email;
+        user.save((err) => {
+            if (err) {
+                return res.status(500).send(err.message)
+            }
+
+            res.status(200).end();
+        });
     });
 });
 
