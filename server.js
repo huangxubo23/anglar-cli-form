@@ -50,6 +50,18 @@ userSchema.methods.comparePassword = function (password, done) {
     });
 };
 
+userSchema.methods.updatePassword = function (user, done) {
+    bcrypt.compare(user.password, this.password, (err, isMath) => {
+        if (!isMath) {
+            return done(err, isMath)
+        }
+        
+        this.password = user.newPassword;
+        this.save();
+        done('Reset password successfully', isMath);
+    });
+};
+
 const User = mongoose.model('Angular_User', userSchema);
 
 /**
@@ -89,13 +101,14 @@ app.use(express.static(path.join(__dirname, './src')));
  |--------------------------------------------------------------------------
  */
 function ensureAuthenticated(req, res, next) {
-    if (req.header('Authorization')) {
+    if (!req.header('Authorization')) {
         return res.status(401).send({
             messages: 'Please make sure your request has an Authorization header'
         });
     }
 
-    const token = req.header('Authorization').split(' ')[1];
+    //let token = req.header('Authorization').split(' ')[1];
+    let token = req.header('Authorization');
 
     let payload = null;
     try {
@@ -147,6 +160,7 @@ app.post('/auth/login', function (req, res) {
     }
 
     User.findOne({ email: req.body.email }, '+password', function (err, user) {
+        console.log(user);
         if (!user) {
             return res.status(401).send({
                 status: 'invalidForm',
@@ -175,6 +189,52 @@ app.post('/auth/login', function (req, res) {
 
 /*
  |--------------------------------------------------------------------------
+ | Reset password
+ |--------------------------------------------------------------------------
+ */
+app.put('/auth/resetPassword', ensureAuthenticated, function (req, res) {
+    User.findById(req.user, '+password', (error, user) => {
+        console.log(user);
+        if (!user) {
+            return res.status(400).send({
+                messages: 'User not found'
+            });
+        }
+
+        req.assert('password', 'Password must be at least 4 characters long').len(4);
+        req.assert('newPassword', 'New password must be at least 4 characters long').len(4);
+        req.assert('confirmPassword', 'Password do not match the new password').equals(req.body.newPassword);
+        const errors = req.validationErrors(true);
+        if (errors) {
+            return res.status(400).send({
+                status: 'invalidParam',
+                messages: errors
+            });
+        }
+
+        const newUser = {
+            password: req.body.password,
+            newPassword: req.body.newPassword
+        }
+        user.updatePassword(newUser, (msg, isSuccess) => {
+            if (!isSuccess) {
+                return res.status(400).send({
+                    status: 'invalidForm',
+                    messages: [{
+                        param: 'password',
+                        msg: 'Password is not match',
+                        value: req.body.password
+                    }]
+                })
+            }
+
+            return res.send({ token: createJWT(user) });
+        })
+    });
+});
+
+/*
+ |--------------------------------------------------------------------------
  | Get user information
  |--------------------------------------------------------------------------
  */
@@ -192,7 +252,7 @@ app.get('/api/user', (req, res) => {
  |--------------------------------------------------------------------------
  */
 app.put('/api/user', ensureAuthenticated, function (req, res) {
-    User.findById(req.user, (err, user) => {
+    User.findById(req.user, (error, user) => {
         if (!user) {
             return res.status(400).send({
                 messages: 'User not found'
@@ -201,12 +261,14 @@ app.put('/api/user', ensureAuthenticated, function (req, res) {
 
         user.userName = req.body.userName || user.userName;
         user.email = req.body.email || user.email;
-        user.save((err) => {
-            if (err) {
-                return res.status(500).send(err.message)
+        user.save((error, result) => {
+            if (error) {
+                return res.status(500).send(error.message)
             }
 
-            res.status(200).end();
+            console.log(result);
+            // res.status(200).end();
+            res.status(200).send(result);
         });
     });
 });
@@ -217,7 +279,6 @@ app.put('/api/user', ensureAuthenticated, function (req, res) {
  |--------------------------------------------------------------------------
  */
 app.post('/api/signup', (req, res, next) => {
-    console.log(req);
     req.assert('email', 'Email is required').notEmpty();
     req.assert('email', 'Email is not valid').isEmail();
     req.assert('password', 'Password must be at least 4 characters long').len(4);

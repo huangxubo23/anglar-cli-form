@@ -1,6 +1,6 @@
-export class ResetPassword {
+export class ResetPasswordUser {
     constructor(
-        public oldPassword: string,
+        public password: string,
         public newPassword: string,
         public confirmPassword: string
     ){}
