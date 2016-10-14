@@ -16,12 +16,12 @@
 			</div>
 			<div class="margin-top-10">
 				<label for="password">Password:</label>
-				<input type="text" id="password" class="form-control" [formControl]="newUserForm.controls['password']">
+				<input type="password" id="password" class="form-control" [formControl]="newUserForm.controls['password']">
 				<app-form-messages *ngIf="newUserForm.controls['password'].invalid && newUserForm.controls['password'].dirty" [control]="newUserForm.controls['password']"></app-form-messages>
 			</div>
 			<div class="margin-top-10">
 				<label for="confirmPassword">Confirm Password:</label>
-				<input type="text" id="confirmPassword" class="form-control" [formControl]="newUserForm.controls['confirmPassword']">
+				<input type="password" id="confirmPassword" class="form-control" [formControl]="newUserForm.controls['confirmPassword']">
 				<app-form-messages *ngIf="newUserForm.controls['confirmPassword'].invalid && newUserForm.controls['confirmPassword'].dirty" [control]="newUserForm.controls['confirmPassword']"></app-form-messages>
 			</div>
 			<div class="margin-top-10">

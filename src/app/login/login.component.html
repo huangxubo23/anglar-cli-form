@@ -15,7 +15,7 @@
 
       <div class="form-group">
         <label for="password">Password:</label>
-        <input type="text" class="form-control" id="password" placeholder="Password" required [(ngModel)]="user.password" name="password" #password="ngModel">
+        <input type="password" class="form-control" id="password" placeholder="Password" required [(ngModel)]="user.password" name="password" #password="ngModel">
         <app-form-messages *ngIf="password.invalid && password.dirty" [control]="password"></app-form-messages>
       </div>
       <p *ngIf="showErr" class="text-danger">{{errMsg}}</p>

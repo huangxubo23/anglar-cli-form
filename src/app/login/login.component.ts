@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, trigger, state, animate, transition, style } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { LoginUser } from './login-user';
 import { LoginService } from './login.service';
@@ -23,8 +24,10 @@ export class LoginComponent implements OnInit {
   user = new LoginUser(null, null);
   errMsg: string = null;
   showErr: boolean = false;
-  constructor(private loginService: LoginService) {
-    console.log(this.user);
+  constructor(
+    private router: Router,
+    private loginService: LoginService) {
+
   }
 
   ngOnInit() {
@@ -46,6 +49,8 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(this.user).subscribe((response: any) => {
       console.log(response);
+      localStorage.setItem('id_token', response.token);
+      this.router.navigate(['reset']);
     }, (error: any) => {
       if (error.hasOwnProperty('status') && error.status === 'invalidForm') {
         error.messages.map((message: IMessage) => {
