@@ -19,6 +19,7 @@ const moment = require('moment');
 const mongoose = require('mongoose');
 
 const config = require('./server/config');
+const baseFn = require('./server/baseFunction');
 
 /**
  * Create Express server.
@@ -207,8 +208,8 @@ app.put('/auth/resetPassword', ensureAuthenticated, function (req, res) {
         const errors = req.validationErrors(true);
         if (errors) {
             return res.status(400).send({
-                status: 'invalidParam',
-                messages: errors
+                status: 'invalidForm',
+                messages: baseFn.objectToArray(errors)
             });
         }
 

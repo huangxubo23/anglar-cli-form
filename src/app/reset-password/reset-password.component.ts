@@ -28,19 +28,7 @@ export class ResetPasswordComponent implements OnInit {
       console.log(response);
       localStorage.setItem('id_token', response.token);
     }, (error) => {
-      if (error.hasOwnProperty('status') && error.status === 'invalidParam') {
-        //error.messages is Object
-        for (let name in error.messages) {
-          if (!error.messages.hasOwnProperty(name))
-            return;
-          
-          const message: IMessage = error.messages[name];
-          resetForm.controls[message.param].setErrors({
-            invalidForm: message.msg
-          });
-        }
-      } else if (error.hasOwnProperty('status') && error.status === 'invalidForm') {
-        //error.messages is Array
+      if (error.hasOwnProperty('status') && error.status === 'invalidForm') {
         error.messages.map((message: IMessage) => {
           resetForm.controls[message.param].setErrors({
             invalidForm: message.msg
