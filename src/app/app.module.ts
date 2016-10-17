@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { Route } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -13,6 +14,8 @@ import { HomeComponent } from './home/home.component';
 import { HomeService } from './home/home.service';
 import { SignupComponent } from './signup/signup.component';
 import { FormMessagesComponent } from './common/form-messages.component';
+import { AuthServiceService } from './common/auth-service.service';
+import { AuthGuard } from './common/auth-guard';
 
 @NgModule({
   imports: [
@@ -35,7 +38,15 @@ import { FormMessagesComponent } from './common/form-messages.component';
   ],
   providers: [
     appRoutingProviders,
-    HomeService
+    HomeService,
+    AuthServiceService,
+    AuthGuard,
+    {
+      provide: 'canSignup',
+      useValue: () => {
+        return localStorage.getItem('id_token') ? false : true;
+      }
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './common/auth-guard';
 
 const appRoutes: Routes = [
     {
@@ -22,11 +23,13 @@ const appRoutes: Routes = [
     },
     {
         path: 'reset',
-        component: ResetPasswordComponent
+        component: ResetPasswordComponent,
+        canActivate: [AuthGuard]
     }, 
     {
         path: 'signup',
-        component: SignupComponent
+        component: SignupComponent,
+        canActivate: ['canSignup']
     }
 ];
 

@@ -3,4 +3,4 @@ function objectToArray(obj) {
     return arr;
 }
 
-module.exports.objectToArray = objectToArray
+module.exports.objectToArray = objectToArray;
