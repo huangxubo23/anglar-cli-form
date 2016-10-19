@@ -142,7 +142,7 @@ function createJWT(user) {
     var payload = {
         sub: user._id,
         iat: moment().unix(),
-        exp: moment().add(1, 'days').unix()
+        exp: moment().add(10, 'minutes').unix()
     };
 
     return jwt.encode(payload, config.TOKEN_SECRET);
