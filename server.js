@@ -123,6 +123,7 @@ function ensureAuthenticated(req, res, next) {
 
     if (payload.exp <= moment().unix()) {
         return res.status(401).send({
+            status: 'tokenExpired',
             messages: 'Token has expired'
         });
     }
@@ -141,7 +142,7 @@ function createJWT(user) {
     var payload = {
         sub: user._id,
         iat: moment().unix(),
-        exp: moment().add(14, 'days').unix()
+        exp: moment().add(1, 'days').unix()
     };
 
     return jwt.encode(payload, config.TOKEN_SECRET);

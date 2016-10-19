@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ResetPasswordUser } from './reset-password';
 import { ResetPasswordService } from './reset-password.service';
@@ -13,7 +14,10 @@ import { ResetPasswordService } from './reset-password.service';
 export class ResetPasswordComponent implements OnInit {
   user = new ResetPasswordUser(null, null, null);
   errMsg: string = null;
-  constructor(private resetPasswordService: ResetPasswordService) { }
+  constructor(
+    private router: Router,
+    private resetPasswordService: ResetPasswordService
+    ) { }
 
   ngOnInit() {
 
@@ -27,6 +31,7 @@ export class ResetPasswordComponent implements OnInit {
     this.resetPasswordService.resetPassword(this.user).subscribe((response: any) => {
       console.log(response);
       localStorage.setItem('id_token', response.token);
+      this.router.navigate(['home']);
     }, (error) => {
       if (error.hasOwnProperty('status') && error.status === 'invalidForm') {
         error.messages.map((message: IMessage) => {
@@ -34,6 +39,9 @@ export class ResetPasswordComponent implements OnInit {
             invalidForm: message.msg
           });
         });
+      } else if (error.hasOwnProperty('status') && error.status === 'tokenExpired') {
+        alert(error.messages);
+        this.router.navigate(['login']);
       } else {
         this.errMsg = (error.messages) ? error.messages : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
       }
