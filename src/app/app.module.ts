@@ -14,7 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { HomeService } from './home/home.service';
 import { SignupComponent } from './signup/signup.component';
 import { FormMessagesComponent } from './common/form-messages.component';
-import { AuthServiceService } from './common/auth-service.service';
+import { AuthService } from './common/auth.service';
 import { AuthGuard } from './common/auth-guard';
 
 @NgModule({
@@ -39,7 +39,7 @@ import { AuthGuard } from './common/auth-guard';
   providers: [
     appRoutingProviders,
     HomeService,
-    AuthServiceService,
+    AuthService,
     AuthGuard,
     {
       provide: 'canSignup',

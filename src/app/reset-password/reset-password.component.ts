@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../common/auth.service';
 import { ResetPasswordUser } from './reset-password';
 import { ResetPasswordService } from './reset-password.service';
 
@@ -16,8 +17,9 @@ export class ResetPasswordComponent implements OnInit {
   errMsg: string = null;
   constructor(
     private router: Router,
+    private authService: AuthService,
     private resetPasswordService: ResetPasswordService
-    ) { }
+  ) { }
 
   ngOnInit() {
 
@@ -29,8 +31,8 @@ export class ResetPasswordComponent implements OnInit {
       return this.errMsg = 'Form is not valid';
 
     this.resetPasswordService.resetPassword(this.user).subscribe((response: any) => {
-      console.log(response);
-      localStorage.setItem('id_token', response.token);
+      //localStorage.setItem('id_token', response.token);
+      this.authService.setToken(response.token);
       this.router.navigate(['home']);
     }, (error) => {
       if (error.hasOwnProperty('status') && error.status === 'invalidForm') {

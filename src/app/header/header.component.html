@@ -6,11 +6,12 @@
     <div class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
       <ul class="nav navbar-nav">
         <li routerLink="/home" routerLinkActive="active"><a href="javascript:void(0);">Home</a></li>
-        <li routerLink="/reset" routerLinkActive="active"><a href="javascript:void(0);">Reset Password</a></li>
+        <li *ngIf="isAuthenticated()" routerLink="/reset" routerLinkActive="active"><a href="javascript:void(0);">Reset Password</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li routerLink="/login" routerLinkActive="active"><a href="javascript:void(0);">Login</a></li>
-        <li routerLink="/signup" routerLinkActive="active"><a href="javascript:void(0);">Create Account</a></li>
+        <li *ngIf="!isAuthenticated()" routerLink="/login" routerLinkActive="active"><a href="javascript:void(0);">Login</a></li>
+        <li *ngIf="!isAuthenticated()" routerLink="/signup" routerLinkActive="active"><a href="javascript:void(0);">Create Account</a></li>
+        <li *ngIf="isAuthenticated()"  (click)="logout()"><a href="javascript:void(0);">Logout</a></li>
       </ul>
     </div>
   </div>

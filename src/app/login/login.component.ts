@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, trigger, state, animate, transition, styl
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../common/auth.service';
 import { LoginUser } from './login-user';
 import { LoginService } from './login.service';
 
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
   showErr: boolean = false;
   constructor(
     private router: Router,
+    private authService: AuthService,
     private loginService: LoginService) {
 
   }
@@ -34,13 +36,10 @@ export class LoginComponent implements OnInit {
     setTimeout(() => {
       this.animationState = true;
     });
-
-    console.log('init component');
   }
 
   ngOnDestroy() {
-    this.animationState = false
-    console.log('OnDestroy');
+    this.animationState = false;
   }
 
   onSubmit(loginForm: FormGroup) {
@@ -48,8 +47,8 @@ export class LoginComponent implements OnInit {
       return this.errMsg = 'Email and Password are required';
 
     this.loginService.login(this.user).subscribe((response: any) => {
-      console.log(response);
-      localStorage.setItem('id_token', response.token);
+      this.authService.setToken(response.token);
+      //localStorage.setItem('id_token', response.token);
       this.router.navigate(['reset']);
     }, (error: any) => {
       if (error.hasOwnProperty('status') && error.status === 'invalidForm') {
@@ -66,7 +65,6 @@ export class LoginComponent implements OnInit {
 
   onChangeAnimation() {
     this.animationState = this.animationState ? false : true;
-    console.log(this.animationState);
   }
 }
 
