@@ -160,7 +160,8 @@ app.post('/auth/login', function (req, res) {
             messages: 'You must send both email and Password'
         });
     }
-
+    
+    //错误优先的回调函数用于传递错误和数据。第一个参数始终应该是一个错误对象， 用于检查程序是否发生了错误。其余的参数用于传递数据。
     User.findOne({ email: req.body.email }, '+password', function (err, user) {
         console.log(user);
         if (!user) {
